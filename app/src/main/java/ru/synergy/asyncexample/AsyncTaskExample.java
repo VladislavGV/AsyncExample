@@ -9,13 +9,18 @@ import android.widget.TextView;
 
 public class AsyncTaskExample extends AppCompatActivity {
 
+    private TextView mInfoTextView;
+    private ProgressBar mProgressBar;
+    private Button mButton;
+    private ProgressBar mHorizontalProgressBar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_async_task_example);
 
-        MyAsyncTask asynctask = new MyAsyncTask();
-        asynctask.execute("Hello World");
+
     }
 
     public void onClick(View v) {
@@ -24,35 +29,3 @@ public class AsyncTaskExample extends AppCompatActivity {
 
 }
 
-class MyAsyncTask extends AsyncTask<String, Integer, Integer> {
-
-
-
-    @Override
-    protected Integer doInBackground(String... strings) {
-        int myProgress = 0;
-        publishProgress(myProgress); // для передачи промежуточного результата
-        int result = myProgress++;
-        return result;
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute(); // можно удалить
-    }
-
-    @Override
-    protected void onCancelled() {
-        super.onCancelled(); // можно удалить
-    }
-
-    @Override
-    protected void onPostExecute(Integer integer) {
-        super.onPostExecute(integer);
-    }
-}

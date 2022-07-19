@@ -1,6 +1,7 @@
 package ru.synergy.asyncexample;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,21 +27,30 @@ public class ThreadExample extends AppCompatActivity {
 
     public void onClick(View v) {
 
-
-        long endTime = System.currentTimeMillis() + 20 + 1000;
-        while (System.currentTimeMillis()< endTime) {
-            synchronized (this) {
-                try {
-                    wait(endTime - System.currentTimeMillis());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                long endTime = System.currentTimeMillis() + 20 + 1000;
+                while (System.currentTimeMillis() < endTime) {
+                    synchronized (this) {
+                        try {
+                            wait(endTime - System.currentTimeMillis());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+                Log.i("SPARROWS", ("Сегодня ворон было " + mCounter++ + "штук"));
+                TextView mInfoTextView = (TextView) findViewById(R.id.textViewInfo);
+                mInfoTextView.setText("Сегодня ворон было " + mCounter++ + "штук");
             }
-        }
-            TextView mInfoTextView = (TextView) findViewById(R.id.textViewInfo);
-            mInfoTextView.setText("Сегодня ворон было " + mCounter++ + "штук");
-        }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+
     }
+}
 
    /* private Runnable doInBackgroundProcessing = new Runnable(){
 

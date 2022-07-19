@@ -1,15 +1,26 @@
 package ru.synergy.asyncexample;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ThreadExample extends AppCompatActivity {
 
     int mCounter;
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+               TextView mInfoTextView = (TextView) findViewById(R.id.textViewInfo);
+               mInfoTextView.setText("Сегодня ворон было " + mCounter + "штук");
+        }
+    };
 
 
     @Override
@@ -39,10 +50,14 @@ public class ThreadExample extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+                    Log.i("SPARROWS", ("Сегодня ворон было " + mCounter++ + "штук"));
+
+                    handler.sendEmptyMessage(0);
                 }
-                Log.i("SPARROWS", ("Сегодня ворон было " + mCounter++ + "штук"));
-                TextView mInfoTextView = (TextView) findViewById(R.id.textViewInfo);
-                mInfoTextView.setText("Сегодня ворон было " + mCounter++ + "штук");
+
+
+             //   TextView mInfoTextView = (TextView) findViewById(R.id.textViewInfo);
+                //   mInfoTextView.setText("Сегодня ворон было " + mCounter++ + "штук");
             }
         };
 
